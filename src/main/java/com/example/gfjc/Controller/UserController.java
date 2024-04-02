@@ -70,11 +70,13 @@ public class UserController {
         queryWrapper.eq(User::getPhone, user.getPhone());
         User user1 = userService.getOne(queryWrapper);
 
+
         if(user1 == null){
             return Result.error("用户未注册");
         }
 
         if (!user1.getPassword().equals(password)){
+            log.info(user1.toString());
             return Result.error("账号或密码错误");
         }
 

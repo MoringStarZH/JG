@@ -23,7 +23,11 @@ public class Picture {
 
     private String userInfo;
 
-    private String analyzeUrl;
+    private String originalUrl;
+
+    private String analyzedUrl;
+
+    private String description;
 
     //插入时自动填充字段
     @TableField(fill = FieldFill.INSERT)

@@ -105,12 +105,13 @@ public class UserController {
 
     @ApiOperation("进行分页查询展示")
     @GetMapping("/page")
-    public Result<Page<User>> page(Integer page, Integer pageSize, String name){
+    public Result<Page<User>> page(Integer page, Integer pageSize, String name, String job){
         log.info("page = {}, pageSize = {}",page,pageSize);
         Page<User> pageInfo = new Page<User>(page,pageSize);
 
         LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.like(StringUtils.isNotEmpty(name), User::getNickName,name);
+        queryWrapper.eq(StringUtils.isNotEmpty(job), User::getJob,job);
         queryWrapper.orderByDesc(User::getUpdateTime);
 
 
@@ -120,7 +121,7 @@ public class UserController {
 
     @ApiOperation("更新用户信息")
     @PostMapping("/update/{id}")
-    public Result<String> update(@RequestBody User user,@PathVariable Long id){
+    public Result<String> update(@RequestBody User user, @PathVariable Long id){
         user.setId(id);
         log.info(user.toString());
         if (user.getPassword()!=null){

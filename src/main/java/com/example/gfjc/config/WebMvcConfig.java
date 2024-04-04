@@ -3,8 +3,12 @@ package com.example.gfjc.config;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+
+import java.util.List;
 
 /**
  * @title WebMvcConfig
@@ -20,6 +24,9 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 
     @Value("${GFJC.analyzedBasePath}")
     private String analyzedBasePath;
+
+    @Value("${GFJC.repairedBasePath}")
+    private String repairedBasePath;
     //设置静态资源映射
     @Override
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -27,10 +34,19 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 //        registry.addResourceHandler("/picture/**").addResourceLocations("file:D:/img/");
         registry.addResourceHandler("/originalPicture/**").addResourceLocations("file:" + originalBasePath);
         registry.addResourceHandler("/analyzedPicture/**").addResourceLocations("file:" + analyzedBasePath);
+        registry.addResourceHandler("/repairedPicture/**").addResourceLocations("file:" + repairedBasePath);
         registry.addResourceHandler("/backend/**").addResourceLocations("classpath:/backend/");
 //        registry.addResourceHandler("/front/**").addResourceLocations("classpath:/front/");
 //        registry.addResourceHandler("/swagger-ui/**").addResourceLocations("classpath:/META-INF/resources/webjars/springfox-swagger-ui/");
         super.addResourceHandlers(registry);
+    }
+
+    @Override
+    protected void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+        log.info("扩展消息转换器...");
+        MappingJackson2HttpMessageConverter messageConverter = new MappingJackson2HttpMessageConverter();
+        messageConverter.setObjectMapper(new JacksonObjectMapper());
+        converters.add(0,messageConverter);
     }
 
 }

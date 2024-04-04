@@ -14,7 +14,9 @@ mybatis-plus:
     db-config:
       id-type: ASSIGN_ID
 GFJC:
-  originalBasePath: D:/image/original/
-  analyzedBasePath: D:/image/analyzed/
+  originalBasePath: D:/image/GF/original/
+  analyzedBasePath: D:/image/GF/analyzed/
+  repairedBasePath: D:/image/GF/repaired/
   originalHttpPath: localhost:8080/originalPicture/
   analyzedHttpPath: localhost:8080/analyzedPicture/
+  repairedHttpPath: localhost:8080/repairedPicture/

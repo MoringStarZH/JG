@@ -8,28 +8,40 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 /**
- * @title Picture
+ * @title WorkSheet
  * @Author: ZKY
- * @CreateTime: 2024-03-21  18:01
+ * @CreateTime: 2024-04-02  08:43
  * @Description: TODO
  */
 @Data
-public class Picture {
-    private String id;
+public class WorkSheet {
+    private Long id;
 
-    private String size;
+    private String picId;
 
-    private String status;
+    private Long inspectId;
 
-    private String userInfo;
+    private Long expertId;
 
-    private String defectType;
-
-    private String riskLevel;
+    private Long workerId;
 
     private String instrumentType;
 
     private String uploadType;
+
+    private String riskLevel;
+
+    private String description;
+
+    private String advice;
+
+    private String defectType;
+
+    private String inspectedInfo;
+
+    private String expertInfo;
+
+    private String workerInfo;
 
     private String originalUrl;
 
@@ -37,7 +49,14 @@ public class Picture {
 
     private String repairedUrl;
 
-    private String description;
+    private int ifReview;
+
+    private int ifRepair;
+
+    private String status;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    private LocalDateTime expectedTime;
 
     //插入时自动填充字段
     @TableField(fill = FieldFill.INSERT)
@@ -48,4 +67,5 @@ public class Picture {
     @TableField(fill = FieldFill.INSERT_UPDATE)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private LocalDateTime updateTime;
+
 }

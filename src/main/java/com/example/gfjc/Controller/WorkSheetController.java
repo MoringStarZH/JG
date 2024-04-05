@@ -1,5 +1,6 @@
 package com.example.gfjc.Controller;
 
+import ch.qos.logback.classic.spi.EventArgUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.gfjc.Enum.WorkSheetStatus;
@@ -76,7 +77,7 @@ public class WorkSheetController {
     }
     @ApiOperation("工单的更新操作")
     @PostMapping("/update")
-    public Result<String> updateByExpert(@RequestBody WorkSheet workSheet, HttpSession session){
+    public Result<String> updateByExpert(@RequestBody WorkSheet workSheet, HttpSession session, String msg){
         User user = userService.getById(String.valueOf(session.getAttribute("user")));
         String job = user.getJob();
         String userinfo = job+": "+user.getNickName()+"; 电话: "+user.getPhone();
@@ -88,19 +89,33 @@ public class WorkSheetController {
                 workSheet.setStatus(WorkSheetStatus.WORK_SHEET_STATUS2.getMessage());
                 workSheetService.updateById(workSheet);
                 return Result.success("专家会审完成，待维修人员接单");
-            }else if(workSheet.getStatus().equals(WorkSheetStatus.WORK_SHEET_STATUS4.getMessage())){
+            }else if(workSheet.getStatus().equals(WorkSheetStatus.WORK_SHEET_STATUS4.getMessage())
+                    && String.valueOf(workSheet.getExpertId()).equals(String.valueOf(user.getId()))){
+                workSheet.setStatus(msg);
+                if(msg.equals(WorkSheetStatus.WORK_SHEET_STATUS6.getMessage())){
+                    workSheet.setIfRepair(0);
+                }
                 workSheetService.updateById(workSheet);
                 return Result.success("反馈成功");
             }
-        }else if (job.equals("维修人员")){
+        }else if (job.equals("维修人员") && String.valueOf(workSheet.getWorkerId()) .equals(String.valueOf(user.getId()))){
             if (workSheet.getStatus().equals(WorkSheetStatus.WORK_SHEET_STATUS2.getMessage()) || workSheet.getStatus().equals(WorkSheetStatus.WORK_SHEET_STATUS6.getMessage())){
                 workSheet.setWorkerInfo(userinfo);
                 workSheet.setStatus(WorkSheetStatus.WORK_SHEET_STATUS3.getMessage());
                 workSheetService.updateById(workSheet);
+                return Result.success("维修人员成功接单，请按时完成维修");
+            }else if (workSheet.getStatus().equals(WorkSheetStatus.WORK_SHEET_STATUS3.getMessage())){
+               workSheet.setStatus(WorkSheetStatus.WORK_SHEET_STATUS4.getMessage());
+               workSheet.setIfRepair(1);
+               if (StringUtils.isNotEmpty(workSheet.getRepairedUrl())){
+                   workSheet.setRepairedUrl(repairedHttpPath+workSheet.getRepairedUrl());
+               }
+                workSheetService.updateById(workSheet);
+                return Result.success("上传成功，待专家复审");
             }
         }
 
-        return null;
+        return Result.error("出现未知错误");
     }
 
 

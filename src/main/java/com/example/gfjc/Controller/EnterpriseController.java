@@ -50,7 +50,7 @@ public class EnterpriseController {
         return Result.success("删除成功");
     }
 
-    @ApiOperation("分页查询")
+    @ApiOperation("企业分页查询")
     @GetMapping("/page")
     public Result<Page<Enterprise>> page(Integer page, Integer pageSize, String name){
         log.info("page = {}, pageSize = {}",page,pageSize);

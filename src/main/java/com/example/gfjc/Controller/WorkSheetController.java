@@ -1,6 +1,5 @@
 package com.example.gfjc.Controller;
 
-import ch.qos.logback.classic.spi.EventArgUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.gfjc.Enum.WorkSheetStatus;
@@ -16,11 +15,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.Objects;
+
 
 /**
  * @title WorkSheetController
@@ -118,17 +116,9 @@ public class WorkSheetController {
         return Result.error("出现未知错误");
     }
 
-
-//    @ApiOperation("工单的更新操作：维修人员")
-//    @PostMapping("/updateByWorker/{id}")
-//    public Result<String> updateByWorker(@RequestBody WorkSheet workSheet,@PathVariable Long id, HttpSession session, String fileName){
-//        User user = userService.getById(String.valueOf(session.getAttribute("user")));
-//
-//    }
-
     @ApiOperation("专家页面工单分页查询")
     @GetMapping("/expert/page")
-    public Result<Page<WorkSheet>> page(Integer page, Integer pageSize, String status, HttpSession session){
+    public Result<Page<WorkSheet>> pageExpert(Integer page, Integer pageSize, String status, HttpSession session){
         log.info("page = {}, pageSize = {}",page,pageSize);
         Page<WorkSheet> pageInfo = new Page<WorkSheet>(page,pageSize);
         LambdaQueryWrapper<WorkSheet> queryWrapper = new LambdaQueryWrapper<>();
@@ -143,7 +133,7 @@ public class WorkSheetController {
             * 查询与当前登录专家相关的工单
             * 前端传的参数status：
             *   "待维修人员接单"：查询当前登陆的专家派出的且尚未被接单的工单
-            *   "维修人员已结单，待维修"：查询当前登陆专家派出的并且正在维修的工单
+            *   "维修人员已接单，待维修"：查询当前登陆专家派出的并且正在维修的工单
             *   "维修完成，待专家复审"：查询当前登陆专家派出的并且维修完成待复审的工单
             *   "专家复审通过，可销项"：查询当前登陆专家派出的并且复审通过的工单
             *   "专家复审未通过，返工"：查询当前登陆专家派出的并且复审未通过的工单
@@ -153,6 +143,32 @@ public class WorkSheetController {
             queryWrapper.eq(WorkSheet::getExpertId,expertId);
 
         }
+        queryWrapper.orderByDesc(WorkSheet::getCreateTime);
+
+        workSheetService.page(pageInfo,queryWrapper);
+        return Result.success(pageInfo);
+    }
+
+    @ApiOperation("维修人员页面工单分页查询")
+    @GetMapping("/worker/page")
+    public Result<Page<WorkSheet>> pageWorker(Integer page, Integer pageSize, String status, HttpSession session){
+        log.info("page = {}, pageSize = {}",page,pageSize);
+        Page<WorkSheet> pageInfo = new Page<WorkSheet>(page,pageSize);
+        LambdaQueryWrapper<WorkSheet> queryWrapper = new LambdaQueryWrapper<>();
+
+        String workerId = String.valueOf(session.getAttribute("user"));
+        /*
+         * 查询与当前登录专家相关的工单
+         * 前端传的参数status：
+         *   "待维修人员接单"：查询当前登陆的维修人员被指派但尚未被接单的工单
+         *   "维修人员已接单，待维修"：查询当前登陆维修人员接受的并且正在维修的工单
+         *   "维修完成，待专家复审"：查询当前登陆维修人员维修完成待复审的工单
+         *   "专家复审通过，可销项"：查询当前登陆维修人员复审通过的工单
+         *   "专家复审未通过，返工"：查询当前登陆维修人员复审未通过的工单
+         * */
+        queryWrapper.eq(StringUtils.isNotEmpty(status),WorkSheet::getStatus, status);
+        queryWrapper.eq(WorkSheet::getWorkerId,workerId);
+
         queryWrapper.orderByDesc(WorkSheet::getCreateTime);
 
         workSheetService.page(pageInfo,queryWrapper);

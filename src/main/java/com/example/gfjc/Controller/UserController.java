@@ -103,7 +103,7 @@ public class UserController {
         return Result.success("退出成功");
     }
 
-    @ApiOperation("进行分页查询展示")
+    @ApiOperation("用户进行分页查询展示")
     @GetMapping("/page")
     public Result<Page<User>> page(Integer page, Integer pageSize, String name, String job){
         log.info("page = {}, pageSize = {}",page,pageSize);

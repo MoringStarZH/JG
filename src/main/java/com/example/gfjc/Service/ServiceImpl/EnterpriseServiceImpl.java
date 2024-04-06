@@ -15,3 +15,4 @@ import org.springframework.stereotype.Service;
 @Service
 public class EnterpriseServiceImpl extends ServiceImpl<EnterpriseMapper, Enterprise> implements EnterpriseService {
 }
+

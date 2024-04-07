@@ -2,7 +2,11 @@ package com.example.gfjc.Mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.example.gfjc.Pojo.Enterprise;
+import jdk.dynalink.linker.LinkerServices;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 /**
  * @title Enterprise
@@ -12,4 +16,6 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface EnterpriseMapper extends BaseMapper<Enterprise> {
+    @Select("SELECT name FROM enterprise")
+    List<String> findAllName();
 }

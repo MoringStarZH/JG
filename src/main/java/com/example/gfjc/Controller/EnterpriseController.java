@@ -11,6 +11,8 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @title Enterprise
  * @Author: ZKY
@@ -64,4 +66,14 @@ public class EnterpriseController {
         enterpriseService.page(pageInfo,queryWrapper);
         return Result.success(pageInfo);
     }
+
+    @ApiOperation("查询所有企业的名称")
+    @GetMapping("/name")
+    public Result<List<String>> name(){
+//        LambdaQueryWrapper<Enterprise> queryWrapper = new LambdaQueryWrapper<>();
+//        queryWrapper.select(Enterprise::getName);
+        List<String> list = enterpriseService.findAllName();
+        return Result.success(list);
+    }
+
 }

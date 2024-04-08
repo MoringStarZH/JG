@@ -181,7 +181,7 @@ public class PictureController {
 
     @ApiOperation("缺陷检测")
     @PostMapping("/analyze/{id}")
-    public Result<String[]> analyzed(@PathVariable Long id){
+    public Result<String[]> analyzed(@PathVariable String id){
         Picture picture = pictureService.getById(id);
         String[] strings = new String[3];
         strings[0] = "开裂";

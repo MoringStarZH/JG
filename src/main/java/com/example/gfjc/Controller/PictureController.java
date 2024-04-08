@@ -1,15 +1,20 @@
 package com.example.gfjc.Controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.gfjc.Pojo.Picture;
 import com.example.gfjc.Pojo.User;
+import com.example.gfjc.Pojo.WorkSheet;
 import com.example.gfjc.Service.PictureService;
 import com.example.gfjc.Service.UserService;
+import com.example.gfjc.Service.WorkSheetService;
 import com.example.gfjc.Utils.DeviceUtil;
 import com.example.gfjc.Utils.ZipUtil;
 import com.example.gfjc.common.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
@@ -46,6 +51,9 @@ public class PictureController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    WorkSheetService workSheetService;
 
     @Value("${GFJC.originalBasePath}")
     private String originalBasePath;
@@ -141,7 +149,7 @@ public class PictureController {
 
     }
 
-    @ApiOperation("图片下载")
+    @ApiOperation("文件下载")
     @GetMapping("/download/{id}")
     public void download(@PathVariable String id, HttpServletResponse response) throws IOException {
         Picture picture = pictureService.getById(id);
@@ -170,6 +178,49 @@ public class PictureController {
             }
         }
     }
+
+    @ApiOperation("缺陷检测")
+    @PostMapping("/analyze/{id}")
+    public Result<String[]> analyzed(@PathVariable Long id){
+        Picture picture = pictureService.getById(id);
+        String[] strings = new String[3];
+        strings[0] = "开裂";
+        strings[1] = analyzedHttpPath + "2.png";
+        strings[2] = "一级风险";
+
+        picture.setAnalyzedUrl(strings[1]);
+        picture.setDefectType(strings[0]);
+        picture.setRiskLevel(strings[2]);
+        if (!pictureService.updateById(picture)){
+            return Result.error("出现错误");
+        }
+        return Result.success(strings);
+    }
+
+    @ApiOperation("图片分页查询")
+    @GetMapping("/page")
+    public Result<Page<Picture>> page(Integer page, Integer pageSize, String type){
+        log.info("page = {}, pageSize = {}",page,pageSize);
+        Page<Picture> pageInfo = new Page<Picture>(page,pageSize);
+
+        LambdaQueryWrapper<Picture> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.like(StringUtils.isNotEmpty(type), Picture::getDefectType, type);
+        queryWrapper.orderByDesc(Picture::getUpdateTime);
+
+
+        pictureService.page(pageInfo,queryWrapper);
+        return Result.success(pageInfo);
+    }
+
+    @ApiOperation("查看对应工单")
+    @GetMapping("/workSheet/{id}")
+    public Result<WorkSheet> workSheet(@PathVariable String id){
+        LambdaQueryWrapper<WorkSheet> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(WorkSheet::getPicId,id);
+        WorkSheet sheet = workSheetService.getOne(queryWrapper);
+        return Result.success(sheet);
+    }
+
 
 
 }

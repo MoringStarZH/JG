@@ -9,6 +9,7 @@ import com.example.gfjc.Pojo.WorkSheet;
 import com.example.gfjc.Service.PictureService;
 import com.example.gfjc.Service.UserService;
 import com.example.gfjc.Service.WorkSheetService;
+import com.example.gfjc.common.BaseContext;
 import com.example.gfjc.common.Result;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 
@@ -29,6 +31,7 @@ import javax.servlet.http.HttpSession;
 
 @RestController
 @Slf4j
+@CrossOrigin
 @RequestMapping("/WorkSheet")
 public class WorkSheetController {
     @Autowired
@@ -48,9 +51,9 @@ public class WorkSheetController {
 
     @ApiOperation("巡检人员生成工单")
     @PostMapping("/generate/{picId}")
-    public Result<String> generate(@PathVariable String picId, HttpSession session){
+    public Result<String> generate(@PathVariable String picId, String userId){
         Picture pic = pictureService.getById(picId);
-        User inspector = userService.getById(String.valueOf(session.getAttribute("user")));
+        User inspector = userService.getById(userId);
 
         String inspectorInfo = "巡检人:" + inspector.getNickName() + "; 电话:" + inspector.getPhone();
 
@@ -75,8 +78,8 @@ public class WorkSheetController {
     }
     @ApiOperation("工单的更新操作")
     @PostMapping("/update")
-    public Result<String> updateByExpert(@RequestBody WorkSheet workSheet, HttpSession session, String msg){
-        User user = userService.getById(String.valueOf(session.getAttribute("user")));
+    public Result<String> updateByExpert(@RequestBody WorkSheet workSheet, String userId, String msg){
+        User user = userService.getById(userId);
         String job = user.getJob();
         String userinfo = job+": "+user.getNickName()+"; 电话: "+user.getPhone();
         if (job.equals("会审专家")){
@@ -118,7 +121,7 @@ public class WorkSheetController {
 
     @ApiOperation("专家页面工单分页查询")
     @GetMapping("/expert/page")
-    public Result<Page<WorkSheet>> pageExpert(Integer page, Integer pageSize, String status, HttpSession session){
+    public Result<Page<WorkSheet>> pageExpert(Integer page, Integer pageSize, String status, String expertId){
         log.info("page = {}, pageSize = {}",page,pageSize);
         Page<WorkSheet> pageInfo = new Page<WorkSheet>(page,pageSize);
         LambdaQueryWrapper<WorkSheet> queryWrapper = new LambdaQueryWrapper<>();
@@ -138,7 +141,7 @@ public class WorkSheetController {
             *   "专家复审通过，可销项"：查询当前登陆专家派出的并且复审通过的工单
             *   "专家复审未通过，返工"：查询当前登陆专家派出的并且复审未通过的工单
             * */
-            String expertId = String.valueOf(session.getAttribute("user"));
+            log.info("id=============" + expertId);
             queryWrapper.eq(StringUtils.isNotEmpty(status),WorkSheet::getStatus, status);
             queryWrapper.eq(WorkSheet::getExpertId,expertId);
 
@@ -151,12 +154,11 @@ public class WorkSheetController {
 
     @ApiOperation("维修人员页面工单分页查询")
     @GetMapping("/worker/page")
-    public Result<Page<WorkSheet>> pageWorker(Integer page, Integer pageSize, String status, HttpSession session){
+    public Result<Page<WorkSheet>> pageWorker(Integer page, Integer pageSize, String status, String workerId){
         log.info("page = {}, pageSize = {}",page,pageSize);
         Page<WorkSheet> pageInfo = new Page<WorkSheet>(page,pageSize);
         LambdaQueryWrapper<WorkSheet> queryWrapper = new LambdaQueryWrapper<>();
 
-        String workerId = String.valueOf(session.getAttribute("user"));
         /*
          * 查询与当前登录专家相关的工单
          * 前端传的参数status：
@@ -175,7 +177,12 @@ public class WorkSheetController {
         return Result.success(pageInfo);
     }
 
-//    @ApiOperation("工单删除")
-//    @PostMapping("/delete")
-//    public Result<>
+    @ApiOperation("工单删除")
+    @PostMapping("/delete/{id}")
+    public Result<String> delete(@PathVariable Long id){
+        if (!workSheetService.removeById(id)){
+            return Result.error("出现错误");
+        }
+        return Result.success("删除成功");
+    }
 }

@@ -18,6 +18,6 @@ GFJC:
   originalBasePath: D:/image/GF/original/
   analyzedBasePath: D:/image/GF/analyzed/
   repairedBasePath: D:/image/GF/repaired/
-  originalHttpPath: localhost:8080/originalPicture/
-  analyzedHttpPath: localhost:8080/analyzedPicture/
-  repairedHttpPath: localhost:8080/repairedPicture/
+  originalHttpPath: http://localhost:8080/originalPicture/
+  analyzedHttpPath: http://localhost:8080/analyzedPicture/
+  repairedHttpPath: http://localhost:8080/repairedPicture/

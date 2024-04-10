@@ -8,6 +8,7 @@ import com.example.gfjc.Pojo.User;
 import com.example.gfjc.Service.AuthorityService;
 
 import com.example.gfjc.Service.UserService;
+import com.example.gfjc.common.BaseContext;
 import com.example.gfjc.common.Result;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.net.http.HttpRequest;
 
 /**
  * @title UserController
@@ -35,6 +37,25 @@ public class UserController {
 
     @Autowired
     private AuthorityService authorityService;
+
+
+    @ApiOperation("根据用户id查询用户信息")
+    @GetMapping("/getById/{id}")
+    public Result<UserLoginForm> getById(@PathVariable Long id){
+        User user = userService.getById(id);
+        if (user == null){
+            return Result.error("发生错误");
+        }
+        LambdaQueryWrapper<Authority> queryWrapper1 = new LambdaQueryWrapper<>();
+        queryWrapper1.eq(Authority::getJob, user.getJob());
+        Authority authority = authorityService.getOne(queryWrapper1);
+        UserLoginForm userLoginForm = new UserLoginForm();
+        userLoginForm.setUser(user);
+        userLoginForm.setAuthority(authority);
+
+        return Result.success(userLoginForm);
+    }
+
 
     @ApiOperation("用户注册")
     @PostMapping("/register")
@@ -61,7 +82,7 @@ public class UserController {
 
     @ApiOperation("用户登录")
     @PostMapping("/login")
-    public Result<UserLoginForm> login(HttpSession session, @RequestBody User user){
+    public Result<UserLoginForm> login(HttpServletRequest request, @RequestBody User user){
         log.info(user.toString());
         String password = user.getPassword();
         password = DigestUtils.md5DigestAsHex(password.getBytes());
@@ -84,7 +105,11 @@ public class UserController {
             return Result.error("您不被允许登录此平台");
         }
 
-        session.setAttribute("user",user1.getId());
+        request.getSession().setAttribute("user",user1.getId());
+
+//        BaseContext.setCurrentId(user1.getId());
+//        log.info(BaseContext.getCurrentId()+"");
+
 
         LambdaQueryWrapper<Authority> queryWrapper1 = new LambdaQueryWrapper<>();
         queryWrapper1.eq(Authority::getJob, user1.getJob());

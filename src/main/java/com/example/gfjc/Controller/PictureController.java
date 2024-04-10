@@ -2,6 +2,7 @@ package com.example.gfjc.Controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.gfjc.Enum.TypeMap;
 import com.example.gfjc.Pojo.Picture;
 import com.example.gfjc.Pojo.User;
 import com.example.gfjc.Pojo.WorkSheet;
@@ -31,6 +32,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.http.HttpRequest;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.UUID;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -76,6 +78,7 @@ public class PictureController {
     @ApiOperation("上传图片")
     @PostMapping("/upload")
     public Result<String> upload(MultipartFile file, HttpServletRequest request, String description, String instrument, String picId){
+        log.info(file.getName());
         log.info(picId+"********");
         String originalFilename = file.getOriginalFilename();
         String suffix = originalFilename.substring(originalFilename.lastIndexOf("."));
@@ -184,9 +187,13 @@ public class PictureController {
     public Result<String[]> analyzed(@PathVariable String id){
         Picture picture = pictureService.getById(id);
         String[] strings = new String[3];
-        strings[0] = "开裂";
+        strings[0] = "积雪覆盖";
+        HashMap<String, String> map = TypeMap.map;
+        String s = map.get(strings[0]);
         strings[1] = analyzedHttpPath + "2.png";
-        strings[2] = "一级风险";
+        strings[2] = TypeMap.map.get(strings[0]);
+
+
 
         picture.setAnalyzedUrl(strings[1]);
         picture.setDefectType(strings[0]);

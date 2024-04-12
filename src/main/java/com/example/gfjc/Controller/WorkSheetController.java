@@ -95,7 +95,7 @@ public class WorkSheetController {
     }
 
 
-    @ApiOperation("工单的更新操作")
+    @ApiOperation("工单的确认操作")
     @PostMapping("/confirm")
     public Result<String> confirm(@RequestBody WorkSheet workSheet, String userId){
         User user = userService.getById(userId);
@@ -119,11 +119,6 @@ public class WorkSheetController {
         String job = user.getJob();
         String userinfo = job+": "+user.getNickName()+"; 电话: "+user.getPhone();
         if (job.equals("会审专家")){
-            if (workSheet.getStatus().equals(WorkSheetStatus.WORK_SHEET_STATUS1.getMessage()) && workSheet.getIfConfirm() == 0){
-                workSheet.setIfConfirm(1);
-                workSheetService.updateById(workSheet);
-                return Result.success("确认成功");
-            }
             if (workSheet.getStatus().equals(WorkSheetStatus.WORK_SHEET_STATUS1.getMessage())){
                 workSheet.setExpertInfo(userinfo);
                 workSheet.setIfReview(1);

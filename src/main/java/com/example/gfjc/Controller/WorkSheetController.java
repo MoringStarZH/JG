@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 
 /**
@@ -51,7 +52,7 @@ public class WorkSheetController {
 
     @ApiOperation("巡检人员生成工单")
     @PostMapping("/generate/{picId}")
-    public Result<String> generate(@PathVariable String picId, String userId){
+    public Result<String> generate(@PathVariable String picId, String userId, String address, Double latitude, Double longitude){
         Picture pic = pictureService.getById(picId);
         User inspector = userService.getById(userId);
 
@@ -70,12 +71,47 @@ public class WorkSheetController {
         sheet.setIfReview(0);
         sheet.setStatus(WorkSheetStatus.WORK_SHEET_STATUS1.getMessage());
         sheet.setDescription(pic.getDescription());
+        sheet.setIfConfirm(0);
+
+        sheet.setLatitude(latitude);
+        sheet.setLongitude(longitude);
+        sheet.setAddress(address);
 
         if (workSheetService.save(sheet))
             return Result.success("会审工单生成，待专家会审");
         else
             return Result.error("发生错误");
     }
+
+    @ApiOperation("查询当前巡检人员的识别记录")
+    @GetMapping("/historyInfo/{userId}")
+    public Result<List<WorkSheet>> historyInfo(@PathVariable String userId){
+        LambdaQueryWrapper<WorkSheet> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(StringUtils.isNotEmpty(userId), WorkSheet::getInspectId, userId);
+        queryWrapper.orderByAsc(WorkSheet::getUpdateTime);
+        List<WorkSheet> list = workSheetService.list(queryWrapper);
+
+        return Result.success(list);
+    }
+
+
+    @ApiOperation("工单的更新操作")
+    @PostMapping("/confirm")
+    public Result<String> confirm(@RequestBody WorkSheet workSheet, String userId){
+        User user = userService.getById(userId);
+        String job = user.getJob();
+        String userinfo = job+": "+user.getNickName()+"; 电话: "+user.getPhone();
+        if (job.equals("会审专家")) {
+            if (workSheet.getStatus().equals(WorkSheetStatus.WORK_SHEET_STATUS1.getMessage()) && workSheet.getIfConfirm() == 0) {
+                workSheet.setIfConfirm(1);
+                workSheetService.updateById(workSheet);
+                return Result.success("确认成功");
+            }
+        }
+
+        return Result.error("出现未知错误");
+    }
+
     @ApiOperation("工单的更新操作")
     @PostMapping("/update")
     public Result<String> updateByExpert(@RequestBody WorkSheet workSheet, String userId, String msg){
@@ -83,6 +119,11 @@ public class WorkSheetController {
         String job = user.getJob();
         String userinfo = job+": "+user.getNickName()+"; 电话: "+user.getPhone();
         if (job.equals("会审专家")){
+            if (workSheet.getStatus().equals(WorkSheetStatus.WORK_SHEET_STATUS1.getMessage()) && workSheet.getIfConfirm() == 0){
+                workSheet.setIfConfirm(1);
+                workSheetService.updateById(workSheet);
+                return Result.success("确认成功");
+            }
             if (workSheet.getStatus().equals(WorkSheetStatus.WORK_SHEET_STATUS1.getMessage())){
                 workSheet.setExpertInfo(userinfo);
                 workSheet.setIfReview(1);

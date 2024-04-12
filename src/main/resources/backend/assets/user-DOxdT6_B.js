@@ -1,1 +1,0 @@
-import{q as u,j as r,r as f}from"./index-D_0vH8B_.js";const d=u("user",()=>{const e=r(0),t=r("");let n=f({});function s(i,a){const{id:o,nickName:c}=i;Object.assign(n,a),e.value=o,t.value=c}return{userid:e,nickName:t,authority:n,init_userinfo:s}});export{d as u};

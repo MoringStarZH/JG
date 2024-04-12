@@ -53,6 +53,8 @@ public class WorkSheet {
 
     private int ifRepair;
 
+    private int ifConfirm;
+
     private String status;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
@@ -68,4 +70,10 @@ public class WorkSheet {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private LocalDateTime updateTime;
 
+
+    private String address;
+
+    private Double Longitude;
+
+    private Double Latitude;
 }

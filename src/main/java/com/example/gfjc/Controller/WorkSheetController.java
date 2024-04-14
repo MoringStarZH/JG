@@ -114,7 +114,7 @@ public class WorkSheetController {
 
     @ApiOperation("工单的更新操作")
     @PostMapping("/update")
-    public Result<String> updateByExpert(@RequestBody WorkSheet workSheet, String userId, String msg){
+    public Result<String> updateByExpert(@RequestBody WorkSheet workSheet, Long userId, String msg){
         User user = userService.getById(userId);
         String job = user.getJob();
         String userinfo = job+": "+user.getNickName()+"; 电话: "+user.getPhone();

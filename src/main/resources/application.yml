@@ -7,6 +7,11 @@ spring:
       url: jdbc:mysql://124.223.48.82:3306/GFJC?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
       username: root
       password: Zhangkuoyuan1230-9
+  redis:
+    host: 101.33.242.250
+    port: 6666
+    database: 15
+    password: 20020329@redis
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true

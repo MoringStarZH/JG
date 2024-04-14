@@ -9,5 +9,5 @@ import com.example.gfjc.Pojo.Picture;
  * @CreateTime: 2024-04-01  19:11
  * @Description: TODO
  */
-public interface PictureService extends IService<Picture> {
+public interface  PictureService extends IService<Picture> {
 }

@@ -2,24 +2,27 @@ package com.example.gfjc.Controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.gfjc.Form.LogInForm;
 import com.example.gfjc.Form.UserLoginForm;
 import com.example.gfjc.Pojo.Authority;
 import com.example.gfjc.Pojo.User;
 import com.example.gfjc.Service.AuthorityService;
 
 import com.example.gfjc.Service.UserService;
-import com.example.gfjc.common.BaseContext;
+import com.example.gfjc.Utils.JwtTokenUtils;
+
 import com.example.gfjc.common.Result;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.DigestUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.net.http.HttpRequest;
+
+import java.time.Duration;
 
 /**
  * @title UserController
@@ -38,7 +41,8 @@ public class UserController {
     @Autowired
     private AuthorityService authorityService;
 
-
+    @Autowired
+    private RedisTemplate<Object,User> redisTemplate;
     @ApiOperation("根据用户id查询用户信息")
     @GetMapping("/getById/{id}")
     public Result<UserLoginForm> getById(@PathVariable Long id){
@@ -156,4 +160,24 @@ public class UserController {
         return Result.success("信息修改成功");
     }
 
+    @ApiOperation("小程序端用户登录")
+    @PostMapping("/frontend/login")
+    public Result<LogInForm> login(@RequestBody User user){
+        log.info(user.toString());
+        String password = user.getPassword();
+        password = DigestUtils.md5DigestAsHex(password.getBytes());
+
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(User::getPhone, user.getPhone());
+        User user1 = userService.getOne(queryWrapper);
+        if (user1 == null) {
+            return Result.error("用户未注册");
+        }
+        LogInForm logInForm = new LogInForm();
+        String jwtToken = JwtTokenUtils.generateJwtToken(user);
+        redisTemplate.opsForValue().set(jwtToken,user, Duration.ofMinutes(120L));
+        logInForm.setJwtToken(jwtToken);
+        logInForm.setUser(user1);
+        return Result.success(logInForm);
+    }
 }

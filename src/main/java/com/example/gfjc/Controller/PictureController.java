@@ -85,7 +85,7 @@ public class PictureController {
         String uuid = UUID.randomUUID().toString();
         String fileName = uuid + suffix;
         String device;
-        if (picId == null){
+        if (picId.equals("")){
             long size = file.getSize()/1024;
             BufferedImage bufferedImage = null;
             try {

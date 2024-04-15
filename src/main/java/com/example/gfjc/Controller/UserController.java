@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.gfjc.Form.LogInForm;
 import com.example.gfjc.Form.UserLoginForm;
+import com.example.gfjc.MyAnnotation.TakeCount;
 import com.example.gfjc.Pojo.Authority;
 import com.example.gfjc.Pojo.User;
 import com.example.gfjc.Service.AuthorityService;
@@ -86,6 +87,7 @@ public class UserController {
 
     @ApiOperation("用户登录")
     @PostMapping("/login")
+    @TakeCount(time = 86400)
     public Result<UserLoginForm> login(HttpServletRequest request, @RequestBody User user){
         log.info(user.toString());
         String password = user.getPassword();
@@ -162,6 +164,7 @@ public class UserController {
 
     @ApiOperation("小程序端用户登录")
     @PostMapping("/frontend/login")
+    @TakeCount(time = 86400)
     public Result<LogInForm> login(@RequestBody User user){
         log.info(user.toString());
         String password = user.getPassword();
@@ -173,6 +176,7 @@ public class UserController {
         if (user1 == null) {
             return Result.error("用户未注册");
         }
+        log.info(user1.toString());
         LogInForm logInForm = new LogInForm();
         String jwtToken = JwtTokenUtils.generateJwtToken(user);
         redisTemplate.opsForValue().set(jwtToken,user1, Duration.ofMinutes(120L));

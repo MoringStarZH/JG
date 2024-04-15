@@ -32,6 +32,9 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
         log.info("开始进行静态资源映射");
 //        registry.addResourceHandler("/picture/**").addResourceLocations("file:D:/img/");
+//        registry.addResourceHandler("/originalPicture/**").addResourceLocations("file:" + originalBasePath);
+//        registry.addResourceHandler("/analyzedPicture/**").addResourceLocations("file:" + analyzedBasePath);
+//        registry.addResourceHandler("/repairedPicture/**").addResourceLocations("file:" + repairedBasePath);
         registry.addResourceHandler("/originalPicture/**").addResourceLocations("file:" + originalBasePath);
         registry.addResourceHandler("/analyzedPicture/**").addResourceLocations("file:" + analyzedBasePath);
         registry.addResourceHandler("/repairedPicture/**").addResourceLocations("file:" + repairedBasePath);

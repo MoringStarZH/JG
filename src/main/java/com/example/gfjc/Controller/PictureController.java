@@ -18,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -53,6 +54,9 @@ public class PictureController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    RedisTemplate<Object, User> template;
 
     @Autowired
     WorkSheetService workSheetService;
@@ -118,7 +122,17 @@ public class PictureController {
 
             HttpSession session = request.getSession();
             String userid = String.valueOf(session.getAttribute("user"));
-            User user = userService.getById(userid);
+            log.info(userid);
+            User user;
+            if (userid.equals("null")){
+                String token = request.getHeader("Authorization");
+                log.info(token);
+                user = template.opsForValue().get(token);
+                log.info(user.toString());
+            }else {
+                user = userService.getById(userid);
+            }
+
             String userinfo = user.getJob() + ":" + user.getNickName() + "; 电话:" + user.getPhone();
             picture.setUserInfo(userinfo);
 

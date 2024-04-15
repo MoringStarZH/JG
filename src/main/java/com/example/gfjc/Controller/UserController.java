@@ -175,7 +175,7 @@ public class UserController {
         }
         LogInForm logInForm = new LogInForm();
         String jwtToken = JwtTokenUtils.generateJwtToken(user);
-        redisTemplate.opsForValue().set(jwtToken,user, Duration.ofMinutes(120L));
+        redisTemplate.opsForValue().set(jwtToken,user1, Duration.ofMinutes(120L));
         logInForm.setJwtToken(jwtToken);
         logInForm.setUser(user1);
         return Result.success(logInForm);

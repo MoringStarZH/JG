@@ -41,10 +41,10 @@ public class WorkSheetController {
     @Autowired
     private PictureService pictureService;
 
-    @Value("${GFJC.repairedHttpPath}")
+    @Value("${JG.repairedHttpPath}")
     private String repairedHttpPath;
 
-    @Value("${GFJC.repairedBasePath}")
+    @Value("${JG.repairedBasePath}")
     private String repairedBasePath;
 
     @ApiOperation("巡检人员生成工单")

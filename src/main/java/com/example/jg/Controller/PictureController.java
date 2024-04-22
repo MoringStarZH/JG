@@ -55,22 +55,22 @@ public class PictureController {
     @Autowired
     WorkSheetService workSheetService;
 
-    @Value("${GFJC.originalBasePath}")
+    @Value("${JG.originalBasePath}")
     private String originalBasePath;
 
-    @Value("${GFJC.analyzedBasePath}")
+    @Value("${JG.analyzedBasePath}")
     private String analyzedBasePath;
 
-    @Value("${GFJC.repairedBasePath}")
+    @Value("${JG.repairedBasePath}")
     private String repairedBasePath;
 
-    @Value("${GFJC.originalHttpPath}")
+    @Value("${JG.originalHttpPath}")
     private String originalHttpPath;
 
-    @Value("${GFJC.analyzedHttpPath}")
+    @Value("${JG.analyzedHttpPath}")
     private String analyzedHttpPath;
 
-    @Value("${GFJC.repairedHttpPath}")
+    @Value("${JG.repairedHttpPath}")
     private String repairedHttpPath;
 
     @ApiOperation("上传图片")
@@ -195,7 +195,7 @@ public class PictureController {
     public Result<String[]> analyzed(@PathVariable String id){
         Picture picture = pictureService.getById(id);
         String[] strings = new String[3];
-        strings[0] = "积雪覆盖";
+        strings[0] = "井盖缺失";
         HashMap<String, String> map = TypeMap.map;
         String s = map.get(strings[0]);
         strings[1] = analyzedHttpPath + "2.png";

@@ -1,6 +1,6 @@
 spring:
   application:
-    name: GFJC
+    name: JG
   datasource:
     druid:
       driver-class-name: com.mysql.cj.jdbc.Driver
@@ -19,17 +19,17 @@ mybatis-plus:
   global-config:
     db-config:
       id-type: ASSIGN_ID
-#GFJC:
-#  originalBasePath: D:/image/GF/original/
-#  analyzedBasePath: D:/image/GF/analyzed/
-#  repairedBasePath: D:/image/GF/repaired/
+#JG:
+#  originalBasePath: D:/image/JG/original/
+#  analyzedBasePath: D:/image/JG/analyzed/
+#  repairedBasePath: D:/image/JG/repaired/
 #  originalHttpPath: http://localhost:8080/originalPicture/
 #  analyzedHttpPath: http://localhost:8080/analyzedPicture/
 #  repairedHttpPath: http://localhost:8080/repairedPicture/
-GFJC:
-  originalBasePath: /home/image/GF/original/
-  analyzedBasePath: /home/image/GF/analyzed/
-  repairedBasePath: /home/image/GF/repaired/
+JG:
+  originalBasePath: /home/image/JG/original/
+  analyzedBasePath: /home/image/JG/analyzed/
+  repairedBasePath: /home/image/JG/repaired/
   originalHttpPath: http://47.109.204.138:8080/originalPicture/
   analyzedHttpPath: http://47.109.204.138:8080/analyzedPicture/
   repairedHttpPath: http://47.109.204.138:8080/repairedPicture/

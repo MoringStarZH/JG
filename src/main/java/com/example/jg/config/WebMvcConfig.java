@@ -19,13 +19,13 @@ import java.util.List;
 @Slf4j
 @Configuration//告诉SpringBoot这是一个配置类 == 配置文件
 public class WebMvcConfig extends WebMvcConfigurationSupport {
-    @Value("${GFJC.originalBasePath}")
+    @Value("${JG.originalBasePath}")
     private String originalBasePath;
 
-    @Value("${GFJC.analyzedBasePath}")
+    @Value("${JG.analyzedBasePath}")
     private String analyzedBasePath;
 
-    @Value("${GFJC.repairedBasePath}")
+    @Value("${JG.repairedBasePath}")
     private String repairedBasePath;
     //设置静态资源映射
     @Override

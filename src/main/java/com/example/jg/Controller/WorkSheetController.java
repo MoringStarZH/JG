@@ -4,9 +4,11 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.jg.Enum.WorkSheetStatus;
 import com.example.jg.Pojo.Picture;
+import com.example.jg.Pojo.SystemStatus;
 import com.example.jg.Pojo.User;
 import com.example.jg.Pojo.WorkSheet;
 import com.example.jg.Service.PictureService;
+import com.example.jg.Service.SystemStatusService;
 import com.example.jg.Service.UserService;
 import com.example.jg.Service.WorkSheetService;
 import com.example.jg.common.Result;
@@ -41,6 +43,9 @@ public class WorkSheetController {
     @Autowired
     private PictureService pictureService;
 
+    @Autowired
+    private SystemStatusService systemStatusService;
+
     @Value("${JG.repairedHttpPath}")
     private String repairedHttpPath;
 
@@ -50,6 +55,7 @@ public class WorkSheetController {
     @ApiOperation("巡检人员生成工单")
     @PostMapping("/generate/{picId}")
     public Result<String> generate(@PathVariable String picId, String userId, String address, Double latitude, Double longitude){
+        int systemStatus = systemStatusService.getById(1).getStatus();
         Picture pic = pictureService.getById(picId);
         User inspector = userService.getById(userId);
 
@@ -66,18 +72,30 @@ public class WorkSheetController {
         sheet.setOriginalUrl(pic.getOriginalUrl());
         sheet.setAnalyzedUrl(pic.getAnalyzedUrl());
         sheet.setIfReview(0);
-        sheet.setStatus(WorkSheetStatus.WORK_SHEET_STATUS1.getMessage());
         sheet.setDescription(pic.getDescription());
         sheet.setIfConfirm(0);
-
         sheet.setLatitude(latitude);
         sheet.setLongitude(longitude);
         sheet.setAddress(address);
+        try {
+            if (systemStatus == 0){
+                sheet.setStatus(WorkSheetStatus.WORK_SHEET_STATUS1.getMessage());
+                workSheetService.save(sheet);
+                return Result.success("会审工单生成，待专家会审");
+            }else {
+                User worker = systemStatusService.findWorker();
+                sheet.setWorkerId(worker.getId());
+                String workerInfo = "维修人员:" + worker.getNickName() + "; 电话:" + worker.getPhone();
+                sheet.setWorkerInfo(workerInfo);
+                sheet.setStatus(WorkSheetStatus.WORK_SHEET_STATUS2.getMessage());
+                workSheetService.save(sheet);
+                return Result.success("工单已生成，自动派发给"+workerInfo);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return Result.error("出现未知错误");
+        }
 
-        if (workSheetService.save(sheet))
-            return Result.success("会审工单生成，待专家会审");
-        else
-            return Result.error("发生错误");
     }
 
     @ApiOperation("查询当前巡检人员的识别记录")
@@ -217,5 +235,14 @@ public class WorkSheetController {
             return Result.error("出现错误");
         }
         return Result.success("删除成功");
+    }
+
+    @ApiOperation("更改系统运行方式")
+    @PostMapping("/systemStatus")
+    public Result<String> systemStatus(@RequestBody SystemStatus systemStatus){
+        if (!systemStatusService.updateById(systemStatus)){
+            return Result.success("修改失败");
+        }
+        return Result.error("修改成功");
     }
 }

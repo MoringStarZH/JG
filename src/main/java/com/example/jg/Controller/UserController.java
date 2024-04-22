@@ -2,14 +2,17 @@ package com.example.jg.Controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.jg.Enum.WorkSheetStatus;
 import com.example.jg.Form.LogInForm;
 import com.example.jg.Form.UserLoginForm;
 import com.example.jg.MyAnnotation.TakeCount;
 import com.example.jg.Pojo.Authority;
 import com.example.jg.Pojo.User;
+import com.example.jg.Pojo.WorkSheet;
 import com.example.jg.Service.AuthorityService;
 
 import com.example.jg.Service.UserService;
+import com.example.jg.Service.WorkSheetService;
 import com.example.jg.Utils.JwtTokenUtils;
 
 import com.example.jg.common.Result;
@@ -24,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 
 import java.time.Duration;
+import java.util.List;
 
 /**
  * @title UserController
@@ -38,6 +42,9 @@ import java.time.Duration;
 public class UserController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private WorkSheetService workSheetService;
 
     @Autowired
     private AuthorityService authorityService;
@@ -183,5 +190,36 @@ public class UserController {
         logInForm.setJwtToken(jwtToken);
         logInForm.setUser(user1);
         return Result.success(logInForm);
+    }
+
+    @ApiOperation("查询当前被派单最少的维修人员")
+    @GetMapping("/findWorker")
+    public Result<User> findWorker(){
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(User::getJob, "维修人员");
+        List<User> list = userService.list(queryWrapper);
+        int min = Integer.MAX_VALUE;
+        User minUser = new User();
+        for (User u : list){
+            LambdaQueryWrapper<WorkSheet> wsQueryWrapper = new LambdaQueryWrapper<>();
+            wsQueryWrapper.eq(WorkSheet::getWorkerId, u.getId())
+                    .and(wrapper -> wrapper
+                            .eq(WorkSheet::getStatus, WorkSheetStatus.WORK_SHEET_STATUS3.getMessage())
+                            .or()
+                            .eq(WorkSheet::getStatus,WorkSheetStatus.WORK_SHEET_STATUS2.getMessage()));
+
+            int count = workSheetService.count(wsQueryWrapper);
+            log.info(count+"");
+            if (count == 0){
+                min = count;
+                minUser = u;
+                break;
+            }
+            if (count < min){
+                min = count;
+                minUser = u;
+            }
+        }
+        return Result.success(minUser);
     }
 }

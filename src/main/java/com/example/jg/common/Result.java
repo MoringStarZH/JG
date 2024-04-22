@@ -1,4 +1,4 @@
-package com.example.gfjc.common;
+package com.example.jg.common;
 
 import lombok.Data;
 

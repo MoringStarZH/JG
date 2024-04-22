@@ -1,4 +1,4 @@
-package com.example.gfjc;
+package com.example.jg;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

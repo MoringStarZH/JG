@@ -1,7 +1,7 @@
-package com.example.gfjc.Form;
+package com.example.jg.Form;
 
-import com.example.gfjc.Pojo.Authority;
-import com.example.gfjc.Pojo.User;
+import com.example.jg.Pojo.Authority;
+import com.example.jg.Pojo.User;
 import lombok.Data;
 
 /**

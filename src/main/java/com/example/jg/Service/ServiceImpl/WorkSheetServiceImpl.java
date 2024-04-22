@@ -1,9 +1,9 @@
-package com.example.gfjc.Service.ServiceImpl;
+package com.example.jg.Service.ServiceImpl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.gfjc.Mapper.WorkSheetMapper;
-import com.example.gfjc.Pojo.WorkSheet;
-import com.example.gfjc.Service.WorkSheetService;
+import com.example.jg.Mapper.WorkSheetMapper;
+import com.example.jg.Pojo.WorkSheet;
+import com.example.jg.Service.WorkSheetService;
 import org.springframework.stereotype.Service;
 
 /**

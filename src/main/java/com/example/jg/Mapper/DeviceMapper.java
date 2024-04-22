@@ -1,7 +1,7 @@
-package com.example.gfjc.Mapper;
+package com.example.jg.Mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.example.gfjc.Pojo.Device;
+import com.example.jg.Pojo.Device;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 

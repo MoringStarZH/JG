@@ -1,14 +1,13 @@
-package com.example.gfjc.Controller;
+package com.example.jg.Controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.example.gfjc.Enum.TypeMap;
-import com.example.gfjc.Pojo.User;
-import com.example.gfjc.Pojo.VisitsNum;
-import com.example.gfjc.Pojo.WorkSheet;
-import com.example.gfjc.Service.VisitsNumService;
-import com.example.gfjc.Service.WorkSheetService;
-import com.example.gfjc.common.Result;
+import com.example.jg.Enum.TypeMap;
+import com.example.jg.Pojo.VisitsNum;
+import com.example.jg.Pojo.WorkSheet;
+import com.example.jg.Service.VisitsNumService;
+import com.example.jg.Service.WorkSheetService;
+import com.example.jg.common.Result;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

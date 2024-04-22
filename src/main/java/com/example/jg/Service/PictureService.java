@@ -1,7 +1,7 @@
-package com.example.gfjc.Service;
+package com.example.jg.Service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.example.gfjc.Pojo.Picture;
+import com.example.jg.Pojo.Picture;
 
 /**
  * @title PictureService

@@ -1,10 +1,10 @@
-package com.example.gfjc.Controller;
+package com.example.jg.Controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.example.gfjc.Pojo.Enterprise;
-import com.example.gfjc.Service.EnterpriseService;
-import com.example.gfjc.common.Result;
+import com.example.jg.Pojo.Enterprise;
+import com.example.jg.Service.EnterpriseService;
+import com.example.jg.common.Result;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;

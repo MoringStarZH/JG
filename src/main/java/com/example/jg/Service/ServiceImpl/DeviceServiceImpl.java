@@ -1,9 +1,9 @@
-package com.example.gfjc.Service.ServiceImpl;
+package com.example.jg.Service.ServiceImpl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.gfjc.Mapper.DeviceMapper;
-import com.example.gfjc.Pojo.Device;
-import com.example.gfjc.Service.DeviceService;
+import com.example.jg.Mapper.DeviceMapper;
+import com.example.jg.Pojo.Device;
+import com.example.jg.Service.DeviceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

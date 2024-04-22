@@ -1,7 +1,7 @@
-package com.example.gfjc.Utils;
+package com.example.jg.Utils;
 
 
-import com.example.gfjc.Pojo.User;
+import com.example.jg.Pojo.User;
 import io.jsonwebtoken.*;
 
 import java.util.Date;

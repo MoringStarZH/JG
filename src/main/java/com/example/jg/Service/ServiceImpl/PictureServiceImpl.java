@@ -1,9 +1,9 @@
-package com.example.gfjc.Service.ServiceImpl;
+package com.example.jg.Service.ServiceImpl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.gfjc.Mapper.PictureMapper;
-import com.example.gfjc.Pojo.Picture;
-import com.example.gfjc.Service.PictureService;
+import com.example.jg.Mapper.PictureMapper;
+import com.example.jg.Pojo.Picture;
+import com.example.jg.Service.PictureService;
 import org.springframework.stereotype.Service;
 
 /**

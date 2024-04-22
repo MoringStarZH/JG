@@ -1,7 +1,7 @@
-package com.example.gfjc.config;
+package com.example.jg.config;
 
-import com.example.gfjc.Listener.KeyExpiredListener;
-import com.example.gfjc.Pojo.User;
+import com.example.jg.Listener.KeyExpiredListener;
+import com.example.jg.Pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

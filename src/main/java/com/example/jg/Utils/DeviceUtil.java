@@ -1,4 +1,4 @@
-package com.example.gfjc.Utils;
+package com.example.jg.Utils;
 
 /**
  * @title DeviceUtil

@@ -1,6 +1,6 @@
-package com.example.gfjc.Aspect;
+package com.example.jg.Aspect;
 
-import com.example.gfjc.MyAnnotation.TakeCount;
+import com.example.jg.MyAnnotation.TakeCount;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
@@ -54,7 +54,7 @@ public class TakeCountAspect {
     }
  
     //接口方法执行完成之后
-    @After("@annotation(com.example.gfjc.MyAnnotation.TakeCount)")
+    @After("@annotation(com.example.jg.MyAnnotation.TakeCount)")
     public void doAfter(JoinPoint joinPoint){
         //将当前的事件减去之前的事件
         log.info("{}访问时间为：{}ms",joinPoint.getSignature().getName(),(System.currentTimeMillis()-startTime.get()));

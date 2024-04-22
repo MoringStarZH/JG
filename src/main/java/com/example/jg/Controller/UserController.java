@@ -1,18 +1,18 @@
-package com.example.gfjc.Controller;
+package com.example.jg.Controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.example.gfjc.Form.LogInForm;
-import com.example.gfjc.Form.UserLoginForm;
-import com.example.gfjc.MyAnnotation.TakeCount;
-import com.example.gfjc.Pojo.Authority;
-import com.example.gfjc.Pojo.User;
-import com.example.gfjc.Service.AuthorityService;
+import com.example.jg.Form.LogInForm;
+import com.example.jg.Form.UserLoginForm;
+import com.example.jg.MyAnnotation.TakeCount;
+import com.example.jg.Pojo.Authority;
+import com.example.jg.Pojo.User;
+import com.example.jg.Service.AuthorityService;
 
-import com.example.gfjc.Service.UserService;
-import com.example.gfjc.Utils.JwtTokenUtils;
+import com.example.jg.Service.UserService;
+import com.example.jg.Utils.JwtTokenUtils;
 
-import com.example.gfjc.common.Result;
+import com.example.jg.common.Result;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

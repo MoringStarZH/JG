@@ -1,7 +1,7 @@
-package com.example.gfjc.Listener;
+package com.example.jg.Listener;
 
-import com.example.gfjc.Pojo.VisitsNum;
-import com.example.gfjc.Service.VisitsNumService;
+import com.example.jg.Pojo.VisitsNum;
+import com.example.jg.Service.VisitsNumService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -9,14 +9,9 @@ import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.listener.KeyExpirationEventMessageListener;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 @Slf4j
 public class KeyExpiredListener extends KeyExpirationEventMessageListener {

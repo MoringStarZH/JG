@@ -1,9 +1,9 @@
-package com.example.gfjc.Service.ServiceImpl;
+package com.example.jg.Service.ServiceImpl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.gfjc.Mapper.VisitsNumMapper;
-import com.example.gfjc.Pojo.VisitsNum;
-import com.example.gfjc.Service.VisitsNumService;
+import com.example.jg.Mapper.VisitsNumMapper;
+import com.example.jg.Pojo.VisitsNum;
+import com.example.jg.Service.VisitsNumService;
 import org.springframework.stereotype.Service;
 
 /**

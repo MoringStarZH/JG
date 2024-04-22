@@ -1,4 +1,4 @@
-package com.example.gfjc.MyAnnotation;
+package com.example.jg.MyAnnotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -1,4 +1,4 @@
-package com.example.gfjc;
+package com.example.jg;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;

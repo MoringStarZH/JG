@@ -1,9 +1,9 @@
-package com.example.gfjc.Service.ServiceImpl;
+package com.example.jg.Service.ServiceImpl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.gfjc.Mapper.EnterpriseMapper;
-import com.example.gfjc.Pojo.Enterprise;
-import com.example.gfjc.Service.EnterpriseService;
+import com.example.jg.Mapper.EnterpriseMapper;
+import com.example.jg.Pojo.Enterprise;
+import com.example.jg.Service.EnterpriseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

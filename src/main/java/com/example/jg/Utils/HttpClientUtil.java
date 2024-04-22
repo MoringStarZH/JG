@@ -1,4 +1,4 @@
-package com.example.gfjc.Utils;
+package com.example.jg.Utils;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;

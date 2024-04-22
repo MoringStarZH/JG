@@ -1,15 +1,11 @@
-package com.example.gfjc.Controller;
+package com.example.jg.Controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.example.gfjc.Pojo.Device;
-import com.example.gfjc.Pojo.Enterprise;
-import com.example.gfjc.Service.DeviceService;
-import com.example.gfjc.common.Result;
-import io.swagger.annotations.Api;
+import com.example.jg.Pojo.Device;
+import com.example.jg.Service.DeviceService;
+import com.example.jg.common.Result;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

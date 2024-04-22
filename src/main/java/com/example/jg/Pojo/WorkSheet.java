@@ -1,4 +1,4 @@
-package com.example.gfjc.Pojo;
+package com.example.jg.Pojo;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;

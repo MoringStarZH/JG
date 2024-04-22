@@ -1,4 +1,4 @@
-package com.example.gfjc.config;
+package com.example.jg.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

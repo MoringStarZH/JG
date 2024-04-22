@@ -1,4 +1,4 @@
-package com.example.gfjc.common;
+package com.example.jg.common;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import lombok.extern.slf4j.Slf4j;

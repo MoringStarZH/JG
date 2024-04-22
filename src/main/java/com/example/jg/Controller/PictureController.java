@@ -1,18 +1,17 @@
-package com.example.gfjc.Controller;
+package com.example.jg.Controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.example.gfjc.Enum.TypeMap;
-import com.example.gfjc.Pojo.Picture;
-import com.example.gfjc.Pojo.User;
-import com.example.gfjc.Pojo.WorkSheet;
-import com.example.gfjc.Service.PictureService;
-import com.example.gfjc.Service.UserService;
-import com.example.gfjc.Service.WorkSheetService;
-import com.example.gfjc.Utils.DeviceUtil;
-import com.example.gfjc.Utils.ZipUtil;
-import com.example.gfjc.common.Result;
-import io.swagger.annotations.Api;
+import com.example.jg.Enum.TypeMap;
+import com.example.jg.Pojo.Picture;
+import com.example.jg.Pojo.User;
+import com.example.jg.Pojo.WorkSheet;
+import com.example.jg.Service.PictureService;
+import com.example.jg.Service.UserService;
+import com.example.jg.Service.WorkSheetService;
+import com.example.jg.Utils.DeviceUtil;
+import com.example.jg.Utils.ZipUtil;
+import com.example.jg.common.Result;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -23,19 +22,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.http.HttpRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
-import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 /**

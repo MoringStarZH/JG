@@ -3,14 +3,13 @@ package com.example.gfjc;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.web.servlet.ServletComponentScan;
 
 @SpringBootApplication
 @Slf4j
-public class GfjcApplication {
+public class JGApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(GfjcApplication.class, args);
+        SpringApplication.run(JGApplication.class, args);
         log.info("项目成功启动");
     }
 

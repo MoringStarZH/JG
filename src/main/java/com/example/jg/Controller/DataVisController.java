@@ -28,7 +28,7 @@ import java.util.Set;
  */
 @RestController
 @Slf4j
-    @RequestMapping("/DataVis")
+@RequestMapping("/DataVis")
 @CrossOrigin
 public class DataVisController {
     @Autowired

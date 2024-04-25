@@ -78,7 +78,7 @@ public class WorkSheetController {
         sheet.setLongitude(longitude);
         sheet.setAddress(address);
         try {
-            if (systemStatus == 0){
+            if (systemStatus == 0 || inspector.getJob().equals("普通居民")){
                 sheet.setStatus(WorkSheetStatus.WORK_SHEET_STATUS1.getMessage());
                 workSheetService.save(sheet);
                 return Result.success("会审工单生成，待专家会审");
@@ -237,7 +237,7 @@ public class WorkSheetController {
         return Result.success("删除成功");
     }
 
-    @ApiOperation("更改系统运行方式")
+    @ApiOperation("更改 系统运行方式")
     @PostMapping("/systemStatus")
     public Result<String> systemStatus(@RequestBody SystemStatus systemStatus){
         if (!systemStatusService.updateById(systemStatus)){

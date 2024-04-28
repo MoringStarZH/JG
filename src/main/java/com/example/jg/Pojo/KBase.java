@@ -33,7 +33,11 @@ public class KBase {
 
     private String href;
 
+    private String step;
+
     private String riskLevel;
+
+    private String defectType;
 
     private String description;
 

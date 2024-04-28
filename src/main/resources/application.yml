@@ -4,7 +4,7 @@ spring:
   datasource:
     druid:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://47.109.204.138:3306/JG?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
+      url: jdbc:mysql://47.109.204.138:3307/JG?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
       username: root
       password: Zhangkuoyuan1230-9
   redis:
@@ -19,17 +19,21 @@ mybatis-plus:
   global-config:
     db-config:
       id-type: ASSIGN_ID
-#JG:
-#  originalBasePath: D:/image/JG/original/
-#  analyzedBasePath: D:/image/JG/analyzed/
-#  repairedBasePath: D:/image/JG/repaired/
-#  originalHttpPath: http://localhost:8080/originalPicture/
-#  analyzedHttpPath: http://localhost:8080/analyzedPicture/
-#  repairedHttpPath: http://localhost:8080/repairedPicture/
 JG:
-  originalBasePath: /home/image/JG/original/
-  analyzedBasePath: /home/image/JG/analyzed/
-  repairedBasePath: /home/image/JG/repaired/
-  originalHttpPath: http://47.109.204.138:8080/originalPicture/
-  analyzedHttpPath: http://47.109.204.138:8080/analyzedPicture/
-  repairedHttpPath: http://47.109.204.138:8080/repairedPicture/
+  originalBasePath: D:/image/JG/original/
+  analyzedBasePath: D:/image/JG/analyzed/
+  repairedBasePath: D:/image/JG/repaired/
+  kbaseBasePath: D:/image/JG/kbase/
+  originalHttpPath: http://localhost:8080/originalPicture/
+  analyzedHttpPath: http://localhost:8080/analyzedPicture/
+  repairedHttpPath: http://localhost:8080/repairedPicture/
+  kbaseHttpPath: http://localhost:8080/kbasePicture/
+#JG:
+#  originalBasePath: /home/image/JG/original/
+#  analyzedBasePath: /home/image/JG/analyzed/
+#  repairedBasePath: /home/image/JG/repaired/
+#  KBasePicBasePath: /home/image/JG/kbase/
+#  originalHttpPath: http://47.109.204.138:8080/originalPicture/
+#  analyzedHttpPath: http://47.109.204.138:8080/analyzedPicture/
+#  repairedHttpPath: http://47.109.204.138:8080/repairedPicture/
+#  KBasePicHttpPath: http://47.109.204.138:8080/kbasePicture/

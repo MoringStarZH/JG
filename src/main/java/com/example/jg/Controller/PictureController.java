@@ -222,7 +222,6 @@ public class PictureController {
         queryWrapper.like(StringUtils.isNotEmpty(type), Picture::getDefectType, type);
         queryWrapper.orderByDesc(Picture::getUpdateTime);
 
-
         pictureService.page(pageInfo,queryWrapper);
         return Result.success(pageInfo);
     }

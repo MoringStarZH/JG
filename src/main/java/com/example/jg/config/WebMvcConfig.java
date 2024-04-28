@@ -27,6 +27,9 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 
     @Value("${JG.repairedBasePath}")
     private String repairedBasePath;
+
+    @Value("${JG.kbaseBasePath}")
+    private String kbaseBasePath;
     //设置静态资源映射
     @Override
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -38,6 +41,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
         registry.addResourceHandler("/originalPicture/**").addResourceLocations("file:" + originalBasePath);
         registry.addResourceHandler("/analyzedPicture/**").addResourceLocations("file:" + analyzedBasePath);
         registry.addResourceHandler("/repairedPicture/**").addResourceLocations("file:" + repairedBasePath);
+        registry.addResourceHandler("/kbasePicture/**").addResourceLocations("file:" + kbaseBasePath);
         registry.addResourceHandler("/backend/**").addResourceLocations("classpath:/backend/");
 //        registry.addResourceHandler("/front/**").addResourceLocations("classpath:/front/");
 //        registry.addResourceHandler("/swagger-ui/**").addResourceLocations("classpath:/META-INF/resources/webjars/springfox-swagger-ui/");

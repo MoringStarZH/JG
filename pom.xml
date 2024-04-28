@@ -11,8 +11,8 @@
     <groupId>com.example</groupId>
     <artifactId>JG</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>GFJC</name>
-    <description>GFJC</description>
+    <name>JG</name>
+    <description>JG</description>
     <properties>
         <java.version>11</java.version>
     </properties>

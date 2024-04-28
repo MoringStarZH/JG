@@ -11,9 +11,15 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @title KBaseController
@@ -28,6 +34,12 @@ import java.util.List;
 public class KBaseController {
     @Autowired
     private KBaseService kBaseService;
+
+    @Value("${JG.kbaseHttpPath}")
+    private String kbaseHttpPath;
+
+    @Value("${JG.kbaseBasePath}")
+    private String kbaseBasePath;
 
     @ApiOperation("知识库新增")
     @PostMapping("/save")
@@ -65,5 +77,21 @@ public class KBaseController {
             return Result.error("修改失败");
         }
         return Result.success("修改成功");
+    }
+
+    @ApiOperation("上传知识库图片")
+    @PostMapping("/uploadPic")
+    public Result<String> uploadPic(MultipartFile file){
+        String originalFilename = file.getOriginalFilename();
+        String suffix = originalFilename.substring(originalFilename.lastIndexOf("."));
+        String uuid = UUID.randomUUID().toString();
+        String fileName = uuid + suffix;
+
+        try {
+            file.transferTo(new File(kbaseBasePath+fileName));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return Result.success(kbaseHttpPath+fileName);
     }
 }

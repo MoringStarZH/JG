@@ -29,6 +29,10 @@ public class KBase {
 
     private String title;
 
+    private String source;
+
+    private String userInfo;
+
     private String content;
 
     private String href;

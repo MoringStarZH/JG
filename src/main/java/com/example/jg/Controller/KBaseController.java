@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.jg.Pojo.KBase;
 import com.example.jg.Pojo.User;
 import com.example.jg.Service.KBaseService;
+import com.example.jg.Service.UserService;
 import com.example.jg.common.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -35,15 +36,24 @@ public class KBaseController {
     @Autowired
     private KBaseService kBaseService;
 
+    @Autowired
+    private UserService userService;
+
     @Value("${JG.kbaseHttpPath}")
     private String kbaseHttpPath;
 
     @Value("${JG.kbaseBasePath}")
     private String kbaseBasePath;
 
+
     @ApiOperation("知识库新增")
     @PostMapping("/save")
-    public Result<String> save(@RequestBody KBase kBase){
+    public Result<String> save(@RequestBody KBase kBase, Long id){
+        if (id != null){
+            User user = userService.getById(id);
+            String userInfo = user.getJob()+": "+user.getNickName()+"; 电话:"+user.getPhone();
+            kBase.setUserInfo(userInfo);
+        }
         if (!kBaseService.save(kBase)){
             return Result.error("出现错误");
         }

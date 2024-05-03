@@ -11,4 +11,5 @@ import com.example.jg.Pojo.User;
  * @Description: TODO
  */
 public interface UserService extends IService<User> {
+    User wxLogin(String code);
 }

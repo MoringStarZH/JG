@@ -1,3 +1,11 @@
+server:
+  port: 8080
+  #port: 443 #https（服务器）默认用443
+  ssl:
+    key-store: classpath:swpuxytj.com.jks
+    key-store-password: b7861bpt45             #压缩包解压里面会有
+    key-store-type: JKS
+    enabled: true
 spring:
   application:
     name: JG

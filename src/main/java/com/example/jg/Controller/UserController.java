@@ -1,5 +1,6 @@
 package com.example.jg.Controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.jg.Enum.WorkSheetStatus;
@@ -15,6 +16,7 @@ import com.example.jg.Service.UserService;
 import com.example.jg.Service.WorkSheetService;
 import com.example.jg.Utils.JwtTokenUtils;
 
+import com.example.jg.Utils.WeChatLoginUtil;
 import com.example.jg.common.Result;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -166,26 +168,40 @@ public class UserController {
         return Result.success("信息修改成功");
     }
 
+//    @ApiOperation("小程序端用户登录")
+//    @PostMapping("/frontend/login")
+//    @TakeCount(time = 86400)
+//    public Result<LogInForm> login(@RequestBody User user){
+//        log.info(user.toString());
+//        String password = user.getPassword();
+//        password = DigestUtils.md5DigestAsHex(password.getBytes());
+//
+//        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+//        queryWrapper.eq(User::getPhone, user.getPhone());
+//        User user1 = userService.getOne(queryWrapper);
+//        if (user1 == null) {
+//            return Result.error("用户未注册");
+//        }
+//        log.info(user1.toString());
+//        LogInForm logInForm = new LogInForm();
+//        String jwtToken = JwtTokenUtils.generateJwtToken(user);
+//        redisTemplate.opsForValue().set(jwtToken,user1, Duration.ofMinutes(120L));
+//        logInForm.setJwtToken(jwtToken);
+//        logInForm.setUser(user1);
+//        return Result.success(logInForm);
+//    }
+
+
     @ApiOperation("小程序端用户登录")
     @PostMapping("/frontend/login")
     @TakeCount(time = 86400)
-    public Result<LogInForm> login(@RequestBody User user){
-        log.info(user.toString());
-        String password = user.getPassword();
-        password = DigestUtils.md5DigestAsHex(password.getBytes());
-
-        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(User::getPhone, user.getPhone());
-        User user1 = userService.getOne(queryWrapper);
-        if (user1 == null) {
-            return Result.error("用户未注册");
-        }
-        log.info(user1.toString());
-        LogInForm logInForm = new LogInForm();
+    public Result<LogInForm> login(String code){
+        User user = userService.wxLogin(code);
         String jwtToken = JwtTokenUtils.generateJwtToken(user);
-        redisTemplate.opsForValue().set(jwtToken,user1, Duration.ofMinutes(120L));
+        redisTemplate.opsForValue().set(jwtToken,user, Duration.ofMinutes(120L));
+        LogInForm logInForm = new LogInForm();
+        logInForm.setUser(user);
         logInForm.setJwtToken(jwtToken);
-        logInForm.setUser(user1);
         return Result.success(logInForm);
     }
 }

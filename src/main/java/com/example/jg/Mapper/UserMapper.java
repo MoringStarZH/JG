@@ -3,6 +3,7 @@ package com.example.jg.Mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.example.jg.Pojo.User;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
 /**
  * @title UserMapper
@@ -12,4 +13,6 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface UserMapper extends BaseMapper<User> {
+    @Select("select * from user where open_id=#{openid}")
+    User selectByOpenId(String openid);
 }

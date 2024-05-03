@@ -4,7 +4,9 @@ import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import nonapi.io.github.classgraph.json.Id;
 
+import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 
 /**

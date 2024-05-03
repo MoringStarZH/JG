@@ -32,8 +32,8 @@ JG:
 #  originalBasePath: /home/image/JG/original/
 #  analyzedBasePath: /home/image/JG/analyzed/
 #  repairedBasePath: /home/image/JG/repaired/
-#  KBasePicBasePath: /home/image/JG/kbase/
+#  kbaseBasePath: /home/image/JG/kbase/
 #  originalHttpPath: http://47.109.204.138:8080/originalPicture/
 #  analyzedHttpPath: http://47.109.204.138:8080/analyzedPicture/
 #  repairedHttpPath: http://47.109.204.138:8080/repairedPicture/
-#  KBasePicHttpPath: http://47.109.204.138:8080/kbasePicture/
+#  kbasePicHttpPath: http://47.109.204.138:8080/kbasePicture/

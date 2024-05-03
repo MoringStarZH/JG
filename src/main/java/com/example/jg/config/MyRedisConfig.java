@@ -2,6 +2,7 @@ package com.example.jg.config;
 
 import com.example.jg.Listener.KeyExpiredListener;
 import com.example.jg.Pojo.User;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,6 +26,15 @@ public class MyRedisConfig {
         RedisTemplate<Object,User> template = new RedisTemplate<Object,User>();
         template.setConnectionFactory(redisConnectionFactory);
         Jackson2JsonRedisSerializer<User> serializer = new Jackson2JsonRedisSerializer<User>(User.class);
+        template.setDefaultSerializer(serializer);
+        return template;
+    }
+
+    @Bean
+    public RedisTemplate<String, Integer> numRedisTemplate(RedisConnectionFactory redisConnectionFactory){
+        RedisTemplate<String, Integer> template = new RedisTemplate<>();
+        template.setConnectionFactory(redisConnectionFactory);
+        Jackson2JsonRedisSerializer<Integer> serializer = new Jackson2JsonRedisSerializer<Integer>(Integer.class);
         template.setDefaultSerializer(serializer);
         return template;
     }

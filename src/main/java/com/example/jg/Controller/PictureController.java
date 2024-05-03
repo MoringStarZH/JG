@@ -13,6 +13,7 @@ import com.example.jg.Utils.DeviceUtil;
 import com.example.jg.Utils.ZipUtil;
 import com.example.jg.common.Result;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +56,9 @@ public class PictureController {
     @Autowired
     WorkSheetService workSheetService;
 
+    @Autowired
+    RedisTemplate<String, Integer> redisTemplate;
+
     @Value("${JG.originalBasePath}")
     private String originalBasePath;
 
@@ -78,10 +82,13 @@ public class PictureController {
     public Result<String> upload(MultipartFile file, HttpServletRequest request, String description, String instrument, String picId){
         log.info(file.getName());
         log.info(picId+"********");
+        Integer pictureNumId = redisTemplate.opsForValue().get("pictureNumId");
+        String formatNum = String.format("%04d", pictureNumId);
         String originalFilename = file.getOriginalFilename();
         String suffix = originalFilename.substring(originalFilename.lastIndexOf("."));
-        String uuid = UUID.randomUUID().toString();
-        String fileName = uuid + suffix;
+//        String uuid = UUID.randomUUID().toString();
+        String fileName = "井盖" + formatNum + suffix;
+        redisTemplate.opsForValue().increment("pictureNumId");
         String device;
         if (picId.equals("")){
             long size = file.getSize()/1024;

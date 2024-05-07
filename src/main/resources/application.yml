@@ -1,11 +1,15 @@
+#server:
+#  port: 443 #https（服务器）默认用443
+##  port: 8080
+#  ssl:
+##    key-alias: www.swpuxytj.com
+#    key-store: classpath:swpuxytj.com.pfx
+#    key-store-password: w0q03oq0a5vd2v8      #压缩包解压里面会有
+#    key-store-type: PKCS12
+#    enabled: true
+#    client-auth: none
 server:
   port: 8080
-  #port: 443 #https（服务器）默认用443
-  ssl:
-    key-store: classpath:swpuxytj.com.jks
-    key-store-password: b7861bpt45             #压缩包解压里面会有
-    key-store-type: JKS
-    enabled: true
 spring:
   application:
     name: JG
@@ -27,21 +31,21 @@ mybatis-plus:
   global-config:
     db-config:
       id-type: ASSIGN_ID
-JG:
-  originalBasePath: D:/image/JG/original/
-  analyzedBasePath: D:/image/JG/analyzed/
-  repairedBasePath: D:/image/JG/repaired/
-  kbaseBasePath: D:/image/JG/kbase/
-  originalHttpPath: http://localhost:8080/originalPicture/
-  analyzedHttpPath: http://localhost:8080/analyzedPicture/
-  repairedHttpPath: http://localhost:8080/repairedPicture/
-  kbaseHttpPath: http://localhost:8080/kbasePicture/
 #JG:
-#  originalBasePath: /home/image/JG/original/
-#  analyzedBasePath: /home/image/JG/analyzed/
-#  repairedBasePath: /home/image/JG/repaired/
-#  kbaseBasePath: /home/image/JG/kbase/
-#  originalHttpPath: http://47.109.204.138:8080/originalPicture/
-#  analyzedHttpPath: http://47.109.204.138:8080/analyzedPicture/
-#  repairedHttpPath: http://47.109.204.138:8080/repairedPicture/
-#  kbasePicHttpPath: http://47.109.204.138:8080/kbasePicture/
+#  originalBasePath: D:/image/JG/original/
+#  analyzedBasePath: D:/image/JG/analyzed/
+#  repairedBasePath: D:/image/JG/repaired/
+#  kbaseBasePath: D:/image/JG/kbase/
+#  originalHttpPath: http://localhost:8080/originalPicture/
+#  analyzedHttpPath: http://localhost:8080/analyzedPicture/
+#  repairedHttpPath: https://localhost:8080/repairedPicture/
+#  kbaseHttpPath: http://localhost:8080/kbasePicture/
+JG:
+  originalBasePath: /home/image/JG/original/
+  analyzedBasePath: /home/image/JG/analyzed/predict/
+  repairedBasePath: /home/image/JG/repaired/
+  kbaseBasePath: /home/image/JG/kbase/
+  originalHttpPath: http://47.109.204.138:8080/originalPicture/
+  analyzedHttpPath: http://47.109.204.138:8080/analyzedPicture/
+  repairedHttpPath: http://47.109.204.138:8080/repairedPicture/
+  kbaseHttpPath: http://47.109.204.138:8080/kbasePicture/

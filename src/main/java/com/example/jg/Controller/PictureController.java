@@ -1,5 +1,7 @@
 package com.example.jg.Controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.jg.Enum.TypeMap;
@@ -10,8 +12,11 @@ import com.example.jg.Service.PictureService;
 import com.example.jg.Service.UserService;
 import com.example.jg.Service.WorkSheetService;
 import com.example.jg.Utils.DeviceUtil;
+import com.example.jg.Utils.HttpClientUtil;
+import com.example.jg.Utils.StringUtil;
 import com.example.jg.Utils.ZipUtil;
 import com.example.jg.common.Result;
+import io.jsonwebtoken.lang.Strings;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +35,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 import java.util.zip.ZipOutputStream;
 
@@ -87,10 +93,10 @@ public class PictureController {
         String originalFilename = file.getOriginalFilename();
         String suffix = originalFilename.substring(originalFilename.lastIndexOf("."));
 //        String uuid = UUID.randomUUID().toString();
-        String fileName = "井盖" + formatNum + suffix;
+        String fileName = formatNum + suffix;
         redisTemplate.opsForValue().increment("pictureNumId");
         String device;
-        if (picId.equals("")){
+        if (picId==null){
             long size = file.getSize()/1024;
             BufferedImage bufferedImage = null;
             try {
@@ -167,12 +173,24 @@ public class PictureController {
 
     }
 
+//    @ApiOperation("上传图片")
+//    @PostMapping("/upload1")
+//    public Result<String> upload1(MultipartFile file, HttpServletRequest request, String description, String instrument, String picId){
+//        String originalFilename = file.getOriginalFilename();
+//        String url = "http://localhost:8080/picture/upload";
+//        Map<String, String> map = new HashMap<>();
+//        map.put("description",description);
+//        map.put("instrument",instrument);
+//        map.put("picId",picId);
+//        String s = HttpClientUtil.doPost(url, map, file, originalFilename);
+//        return Result.success(s);
+//    }
+
     @ApiOperation("文件下载")
     @GetMapping("/download/{id}")
     public void download(@PathVariable String id, HttpServletResponse response) throws IOException {
         Picture picture = pictureService.getById(id);
         String temp = picture.getAnalyzedUrl();
-
         String zipFileName = "archive.zip";
         response.setContentType("application/zip");
         response.setHeader("Content-Disposition", "attachment; filename=\"" + zipFileName + "\"");
@@ -201,21 +219,23 @@ public class PictureController {
     @PostMapping("/analyze/{id}")
     public Result<String[]> analyzed(@PathVariable String id){
         Picture picture = pictureService.getById(id);
-        String[] strings = new String[3];
-        strings[0] = "井盖缺失";
+        JSONObject jsonObject = JSON.parseObject(HttpClientUtil.doGet("http://47.109.204.138:5000/api/get_pic_info?source=/home/image/JG/original/" + id));
+        String s1 = jsonObject.getString("label");
+        log.info(s1);
+        String defectType = StringUtil.parse(s1);
+        log.info(defectType);
         HashMap<String, String> map = TypeMap.map;
-        String s = map.get(strings[0]);
-        strings[1] = analyzedHttpPath + "2.png";
-        strings[2] = TypeMap.map.get(strings[0]);
+        String riskLevel = map.get(defectType);
+        String analyzedUrl = "http://47.109.204.138:8080/analyzedPicture/"+id;
 
+        picture.setDefectType(defectType);
+        picture.setRiskLevel(riskLevel);
+        picture.setAnalyzedUrl(analyzedUrl);
 
-
-        picture.setAnalyzedUrl(strings[1]);
-        picture.setDefectType(strings[0]);
-        picture.setRiskLevel(strings[2]);
-        if (!pictureService.updateById(picture)){
-            return Result.error("出现错误");
-        }
+        String[] strings = new String[3];
+        strings[0] = defectType;
+        strings[1] = analyzedUrl;
+        strings[2] = riskLevel;
         return Result.success(strings);
     }
 

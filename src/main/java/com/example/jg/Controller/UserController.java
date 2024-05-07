@@ -18,6 +18,7 @@ import com.example.jg.Utils.JwtTokenUtils;
 
 import com.example.jg.Utils.WeChatLoginUtil;
 import com.example.jg.common.Result;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
+import java.net.http.HttpRequest;
 import java.time.Duration;
 import java.util.List;
 
@@ -204,4 +206,30 @@ public class UserController {
         logInForm.setJwtToken(jwtToken);
         return Result.success(logInForm);
     }
+
+    @ApiOperation("身份认证")
+    @PostMapping("/frontend/authentication")
+    public Result<LogInForm> authentication(HttpServletRequest request,String phone, String password){
+        String token = request.getHeader("Authorization");
+        User user = redisTemplate.opsForValue().get(token);
+        password = DigestUtils.md5DigestAsHex(password.getBytes());
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(User::getPhone, phone);
+        User user1 = userService.getOne(queryWrapper);
+        if (user1 == null){
+            return Result.error("未查询到认证信息");
+        }else if (!user1.getPassword().equals(password)){
+            return Result.error("账号或密码错误");
+        }
+        assert user != null;
+        user1.setOpenId(user.getOpenId());
+        userService.removeById(user.getId());
+        userService.updateById(user1);
+        LogInForm logInForm = new LogInForm();
+        logInForm.setUser(user1);
+        logInForm.setJwtToken(token);
+        redisTemplate.opsForValue().set(token,user1, Duration.ofMinutes(120L));
+        return Result.success(logInForm);
+    }
+
 }

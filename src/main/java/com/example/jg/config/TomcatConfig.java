@@ -1,5 +1,10 @@
 package com.example.jg.config;
 
+import org.apache.catalina.Context;
+import org.apache.catalina.connector.Connector;
+import org.apache.tomcat.util.descriptor.web.SecurityCollection;
+import org.apache.tomcat.util.descriptor.web.SecurityConstraint;
+import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,4 +29,5 @@ public class TomcatConfig {
         factory.setMaxRequestSize(DataSize.parse("309600KB"));
         return factory.createMultipartConfig();
     }
+
 }

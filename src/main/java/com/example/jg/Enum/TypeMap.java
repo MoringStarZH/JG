@@ -12,18 +12,18 @@ public class TypeMap {
     public static HashMap<String, String> map = new HashMap<>();
     static{
         map.put("井圈问题","三级风险");
-        map.put("井盖缺失","三级风险");
+        map.put("缺失","三级风险");
         map.put("井盖未盖（翘起）","二级风险");
-        map.put("井盖破损","二级风险");
-        map.put("井盖完好","一级风险");
+        map.put("破损","二级风险");
+        map.put("完好","一级风险");
     }
 
     public static HashMap<String, Integer> typeNumMap = new HashMap<>();
     /*JG*/
     static{
-        typeNumMap.put("井盖完好",0);
-        typeNumMap.put("井盖破损",0);
-        typeNumMap.put("井盖缺失",0);
+        typeNumMap.put("完好",0);
+        typeNumMap.put("破损",0);
+        typeNumMap.put("缺失",0);
         typeNumMap.put("井盖未盖（翘起）",0);
         typeNumMap.put("井圈问题",0);
     }

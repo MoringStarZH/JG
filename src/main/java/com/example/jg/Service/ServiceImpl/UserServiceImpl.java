@@ -24,15 +24,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private UserMapper userMapper;
     @Override
     public User wxLogin(String code) {
+
         JSONObject responseJson = WeChatLoginUtil.getResponseJson(code);
         log.info("responseJson: {}",responseJson.toString());
         String openid = responseJson.getString("openid");
-
         User user = userMapper.selectByOpenId(openid);
         if (user == null){
             user = new User();
             user.setOpenId(openid);
             user.setNickName("微信用户");
+            user.setStatus(1);
+            user.setJob("城镇居民");
             userMapper.insert(user);
         }
         return user;

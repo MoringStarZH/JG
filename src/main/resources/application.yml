@@ -1,8 +1,6 @@
 #server:
 #  port: 443 #https（服务器）默认用443
-##  port: 8080
 #  ssl:
-##    key-alias: www.swpuxytj.com
 #    key-store: classpath:swpuxytj.com.pfx
 #    key-store-password: w0q03oq0a5vd2v8      #压缩包解压里面会有
 #    key-store-type: PKCS12

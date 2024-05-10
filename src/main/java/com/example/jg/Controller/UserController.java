@@ -223,12 +223,17 @@ public class UserController {
         }
         assert user != null;
         user1.setOpenId(user.getOpenId());
-        userService.removeById(user.getId());
+        if (user.getNickName().equals("城市居民")){
+            userService.removeById(user.getId());
+        }else {
+            user.setOpenId(null);
+        }
         userService.updateById(user1);
         LogInForm logInForm = new LogInForm();
         logInForm.setUser(user1);
         logInForm.setJwtToken(token);
         redisTemplate.opsForValue().set(token,user1, Duration.ofMinutes(120L));
+        log.info(logInForm.toString());
         return Result.success(logInForm);
     }
 

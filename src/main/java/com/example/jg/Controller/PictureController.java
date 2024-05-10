@@ -107,12 +107,6 @@ public class PictureController {
             int width = bufferedImage.getWidth();
             int height = bufferedImage.getHeight();
 
-            if (DeviceUtil.isMobileDevice(String.valueOf(request.getHeaderNames()))){
-                device = "移动端";
-            }else {
-                device = "PC端";
-            }
-            log.info(device);
             Picture picture = new Picture();
             picture.setId(fileName);
             picture.setSize("图像大小："+ size +"kb;"+"图片宽度："+ width + "px;"+"图片高度："+ height + "px;");
@@ -120,12 +114,7 @@ public class PictureController {
             log.info(oriPath);
             picture.setOriginalUrl(oriPath);
             picture.setAnalyzedUrl(analyzedHttpPath+"1.png");
-            picture.setUploadType(device);
-            if (device.equals("移动端")){
-                picture.setInstrumentType("移动端摄像头");
-            } else {
-                picture.setInstrumentType(instrument);
-            }
+
 
             HttpSession session = request.getSession();
             String userid = String.valueOf(session.getAttribute("user"));
@@ -135,8 +124,10 @@ public class PictureController {
                 String token = request.getHeader("Authorization");
                 log.info(token);
                 user = template.opsForValue().get(token);
+                picture.setInstrumentType("手机移动端小程序");
                 log.info(user.toString());
             }else {
+                picture.setInstrumentType("PC机");
                 user = userService.getById(userid);
             }
 
@@ -173,17 +164,17 @@ public class PictureController {
 
     }
 
-//    @ApiOperation("上传图片")
-//    @PostMapping("/upload1")
+//    @ApiOperation("上传图片(小程序)")
+//    @PostMapping("/upload")
 //    public Result<String> upload1(MultipartFile file, HttpServletRequest request, String description, String instrument, String picId){
-//        String originalFilename = file.getOriginalFilename();
-//        String url = "http://localhost:8080/picture/upload";
+//        String url = "http://47.109.204.138:8080/picture/upload";
 //        Map<String, String> map = new HashMap<>();
+//        String token = request.getHeader("Authorization");
 //        map.put("description",description);
 //        map.put("instrument",instrument);
 //        map.put("picId",picId);
-//        String s = HttpClientUtil.doPost(url, map, file, originalFilename);
-//        return Result.success(s);
+//        JSONObject jsonObject = JSON.parseObject(HttpClientUtil.doPostFormData(url, "file", file, map, token));
+//        return Result.success(jsonObject.getString("data"));
 //    }
 
     @ApiOperation("文件下载")
@@ -231,6 +222,7 @@ public class PictureController {
         picture.setDefectType(defectType);
         picture.setRiskLevel(riskLevel);
         picture.setAnalyzedUrl(analyzedUrl);
+        pictureService.updateById(picture);
 
         String[] strings = new String[3];
         strings[0] = defectType;

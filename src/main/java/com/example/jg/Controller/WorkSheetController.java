@@ -103,7 +103,8 @@ public class WorkSheetController {
     public Result<List<WorkSheet>> historyInfo(@PathVariable String userId){
         LambdaQueryWrapper<WorkSheet> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(StringUtils.isNotEmpty(userId), WorkSheet::getInspectId, userId);
-        queryWrapper.orderByAsc(WorkSheet::getUpdateTime);
+        queryWrapper.orderByDesc(WorkSheet::getIfUrgent);
+        queryWrapper.orderByDesc(WorkSheet::getUpdateTime);
         List<WorkSheet> list = workSheetService.list(queryWrapper);
 
         return Result.success(list);
@@ -197,6 +198,7 @@ public class WorkSheetController {
             queryWrapper.eq(WorkSheet::getExpertId,expertId);
 
         }
+        queryWrapper.orderByDesc(WorkSheet::getIfUrgent);
         queryWrapper.orderByDesc(WorkSheet::getCreateTime);
 
         workSheetService.page(pageInfo,queryWrapper);
@@ -222,6 +224,7 @@ public class WorkSheetController {
         queryWrapper.eq(StringUtils.isNotEmpty(status),WorkSheet::getStatus, status);
         queryWrapper.eq(WorkSheet::getWorkerId,workerId);
 
+        queryWrapper.orderByDesc(WorkSheet::getIfUrgent);
         queryWrapper.orderByDesc(WorkSheet::getCreateTime);
 
         workSheetService.page(pageInfo,queryWrapper);

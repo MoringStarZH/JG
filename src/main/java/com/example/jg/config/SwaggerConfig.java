@@ -29,8 +29,8 @@ public class SwaggerConfig {
     private ApiInfo apiInfo(){
         Contact contact = new Contact("Zky","","");
 
-        return new ApiInfo( "西柚碳迹API文档",
-                "西柚碳迹",
+        return new ApiInfo( "井盖缺陷检测API文档",
+                "井盖缺陷检测",
                 "1.0",
                 "urn:tos",
                 contact,

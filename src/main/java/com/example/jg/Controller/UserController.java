@@ -69,6 +69,18 @@ public class UserController {
         return Result.success(userLoginForm);
     }
 
+    @ApiOperation("用户逻辑删除")
+    @PostMapping("/logicalDelete/{id}")
+    public Result<String> logicalDelete(@PathVariable Long id){
+        User user = userService.getById(id);
+        user.setStatus(0);
+        if (!userService.updateById(user)){
+            return Result.error("出现未知错误");
+        }
+        return Result.success("该用户已被禁止登录系统");
+    }
+
+
 
     @ApiOperation("用户注册")
     @PostMapping("/register")
@@ -199,6 +211,9 @@ public class UserController {
     @TakeCount(time = 86400)
     public Result<LogInForm> login(String code){
         User user = userService.wxLogin(code);
+        if (user.getStatus() == 0){
+            return Result.error("由于违规操作，您被禁止登录本系统");
+        }
         String jwtToken = JwtTokenUtils.generateJwtToken(user);
         redisTemplate.opsForValue().set(jwtToken,user, Duration.ofMinutes(120L));
         LogInForm logInForm = new LogInForm();

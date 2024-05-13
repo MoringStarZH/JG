@@ -36,6 +36,16 @@ public class TypeMap {
         riskNumMap.put("一级风险",0);
     }
 
+    public static HashMap<String, Integer> workSheetMap = new HashMap<>();
+    /*GFJC*/
+    static{
+        workSheetMap.put("待专家审核",0);
+        workSheetMap.put("待维修人员接单",0);
+        workSheetMap.put("维修人员已接单，待维修",0);
+        workSheetMap.put("维修完成，待专家复审",0);
+        workSheetMap.put("专家复审通过，可销项",0);
+        workSheetMap.put("专家复审未通过，返工",0);
+    }
 
 
 

@@ -75,4 +75,20 @@ public class DataVisController {
         return Result.success(numMap);
     }
 
+    @ApiOperation("获取工单各类型数")
+    @GetMapping("/workSheet")
+    public Result<Map<String, Integer>> workSheet(){
+        Map<String, Integer> numMap = TypeMap.workSheetMap;
+        log.info(numMap.toString());
+        Set<String> key = numMap.keySet();
+        log.info(key.toString());
+        for(String s : key){
+            LambdaQueryWrapper<WorkSheet> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+            lambdaQueryWrapper.eq(WorkSheet::getStatus, s);
+            int count = workSheetService.count(lambdaQueryWrapper);
+            numMap.put(s,count);
+        }
+        return Result.success(numMap);
+    }
+
 }

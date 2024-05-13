@@ -240,12 +240,23 @@ public class WorkSheetController {
         return Result.success("删除成功");
     }
 
-    @ApiOperation("更改 系统运行方式")
+    @ApiOperation("更改系统运行方式")
     @PostMapping("/systemStatus")
     public Result<String> systemStatus(@RequestBody SystemStatus systemStatus){
         if (!systemStatusService.updateById(systemStatus)){
             return Result.success("修改失败");
         }
         return Result.error("修改成功");
+    }
+
+    @ApiOperation("查询当前系统业务模式")
+    @GetMapping("/queryStatus")
+    public Result<String> queryStatus(){
+        SystemStatus one = systemStatusService.getById(1);
+        if (one.getStatus() == 1){
+            return Result.success("自动化业务模式");
+        }else {
+            return Result.success("智能辅助化模式");
+        }
     }
 }

@@ -67,12 +67,12 @@ public class FeedbackController {
 
     @ApiOperation("反馈信息分页查询展示")
     @GetMapping("/page")
-    public Result<Page<Feedback>> page(Integer page, Integer pageSize, Long userid){
+    public Result<Page<Feedback>> page(Integer page, Integer pageSize, String userid){
         log.info("page = {}, pageSize = {}",page,pageSize);
         Page<Feedback> pageInfo = new Page<Feedback>(page,pageSize);
 
         LambdaQueryWrapper<Feedback> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(StringUtils.isNotEmpty(String.valueOf(userid)), Feedback::getUserId, userid);
+        queryWrapper.eq(StringUtils.isNotEmpty(userid), Feedback::getUserId, userid);
         queryWrapper.orderByDesc(Feedback::getStatus);
 
         feedbackService.page(pageInfo,queryWrapper);

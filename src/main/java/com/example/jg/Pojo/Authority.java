@@ -17,15 +17,15 @@ public class Authority {
 
     private String job;
 
-    private int user;
+    private Integer user;
 
-    private int picture;
+    private Integer picture;
 
-    private int jro;
+    private Integer jro;
 
-    private int wo;
+    private Integer wo;
 
-    private int kbase;
+    private Integer kbase;
 
-    private int enterprise;
+    private Integer enterprise;
 }

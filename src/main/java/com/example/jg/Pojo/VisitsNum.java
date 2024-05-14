@@ -20,7 +20,7 @@ import java.time.LocalDate;
 public class VisitsNum {
     private Long id;
 
-    private int num;
+    private Integer num;
 
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonSerialize(using = LocalDateSerializer.class)

@@ -27,7 +27,7 @@ public class User {
 
     private String phone;
 
-    private int status;
+    private Integer status;
 
     private String job;
 

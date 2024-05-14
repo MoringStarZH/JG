@@ -49,13 +49,13 @@ public class WorkSheet {
 
     private String repairedUrl;
 
-    private int ifReview;
+    private Integer ifReview;
 
-    private int ifRepair;
+    private Integer ifRepair;
 
-    private int ifConfirm;
+    private Integer ifConfirm;
 
-    private int ifUrgent;
+    private Integer ifUrgent;
 
     private String status;
 

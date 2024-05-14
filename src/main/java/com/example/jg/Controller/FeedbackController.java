@@ -73,10 +73,29 @@ public class FeedbackController {
 
         LambdaQueryWrapper<Feedback> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(StringUtils.isNotEmpty(userid), Feedback::getUserId, userid);
+        queryWrapper.orderByDesc(Feedback::getIfUrgent);
         queryWrapper.orderByDesc(Feedback::getStatus);
 
         feedbackService.page(pageInfo,queryWrapper);
         return Result.success(pageInfo);
+    }
+
+    @ApiOperation("删除反馈信息")
+    @PostMapping("/delete/{id}")
+    public Result<String> delete(@PathVariable Long id){
+        if (!feedbackService.removeById(id)){
+            return Result.error("发生未知错误");
+        }
+        return Result.success("删除成功");
+    }
+
+    @ApiOperation("修改制定")
+    @PostMapping("/urgent")
+    public Result<String> urgent(@RequestBody Feedback feedback){
+        if (!feedbackService.updateById(feedback)){
+            return Result.error("发生未知错误");
+        }
+        return Result.success("修改成功");
     }
 }
 

@@ -31,6 +31,8 @@ public class Feedback {
 
     private String userPhone;
 
+    private Integer ifUrgent;
+
     @TableField(fill = FieldFill.INSERT)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)

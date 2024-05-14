@@ -12,5 +12,5 @@ import lombok.Data;
 public class SystemStatus {
     private Integer id;
 
-    private int status;
+    private Integer status;
 }

@@ -19,7 +19,7 @@ public class Enterprise {
 
     private String name;
 
-    private int status;
+    private Integer status;
 
     //插入时自动填充字段
     @TableField(fill = FieldFill.INSERT)
